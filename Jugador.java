@@ -2,7 +2,6 @@ package entidades;
 import componentes.Elemento;
 import componentes.Estadisticas;
 import componentes.Materia;
-import componentes.Vulnerable;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -167,40 +166,37 @@ public class Jugador {
     * @param objetivo el enemigo que recibe el ataque
     * @param elemento el elemento mágico seleccionado
     */
-    public void accionMagica(Enemigo objetivo, Elemento elemento) {
-        int costo = busterSword.calcularCostoMP(elemento);
+        public void accionMagica(Enemigo objetivo, Elemento elemento) {
+            int costo = busterSword.calcularCostoMP(elemento);
 
-        if (stats.getMpActual() < costo) {
-            System.out.println("MP insuficiente. Costo: " + costo + " | MP actual: " + stats.getMpActual());
-            return;
+            if (stats.getMpActual() < costo) {
+                System.out.println("MP insuficiente. Costo: " + costo + " | MP actual: " + stats.getMpActual());
+                return;
+            }
+
+            stats.setMpActual(stats.getMpActual() - costo);
+            int dmgBase = busterSword.calcularDanoMagico(elemento);
+
+            if (elemento == Elemento.CURA) {
+                int curacion = Math.min(dmgBase, stats.getHpMaximo() - stats.getHpActual());
+                stats.setHpActual(stats.getHpActual() + curacion);
+                System.out.println("Cloud se curó " + curacion + " HP.");
+                return;
+            }
+
+            double multiplicador = objetivo.evaluarDebilidad(elemento);
+            int dmgFinal = (int)(dmgBase * multiplicador);
+            objetivo.getStats().recibirDMG(dmgFinal);
+            limiteActual += dmgFinal / 5;
+            if (limiteActual > 100) limiteActual = 100;
+            System.out.println("Cloud lanzó " + elemento + " a " + objetivo.getNombre() + " por " + dmgFinal + " de daño. (x" + multiplicador + ")");
+
+            if (objetivo.getStats().getHpActual() <= 0) {
+                System.out.println(objetivo.getNombre() + " fue derrotado.");
+                objetivo.giveXpRecompensa(this);
+                objetivo.giveChatarraRecompensa(this);
+            }
         }
-
-        stats.setMpActual(stats.getMpActual() - costo);
-        int dmgBase = busterSword.calcularDanoMagico(elemento);
-
-        if (elemento == Elemento.CURA) {
-            int curacion = Math.min(dmgBase, stats.getHpMaximo() - stats.getHpActual());
-            stats.setHpActual(stats.getHpActual() + curacion);
-            System.out.println("Cloud se curó " + curacion + " HP.");
-            return;
-        }
-
-        double multiplicador = 1.0;
-        if (objetivo instanceof Vulnerable) {
-            multiplicador = ((Vulnerable) objetivo).evaluarDebilidad(elemento);
-        }
-        int dmgFinal = (int)(dmgBase * multiplicador);
-        objetivo.getStats().recibirDMG(dmgFinal);
-        limiteActual += dmgFinal / 5;
-        if (limiteActual > 100) limiteActual = 100;
-        System.out.println("Cloud lanzó " + elemento + " a " + objetivo.getNombre() + " por " + dmgFinal + " de daño. (x" + multiplicador + ")");
-
-        if (objetivo.getStats().getHpActual() <= 0) {
-            System.out.println(objetivo.getNombre() + " fue derrotado.");
-            objetivo.giveXpRecompensa(this);
-            objetivo.giveChatarraRecompensa(this);
-        }
-    }
 
     /**
      * Ejecuta el ataque Límite de Cloud contra un enemigo.

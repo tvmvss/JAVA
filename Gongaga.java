@@ -1,5 +1,4 @@
 package mapa;
-
 import componentes.Elemento;
 import componentes.Materia;
 import entidades.Enemigo;
@@ -38,7 +37,7 @@ public class Gongaga extends Zona {
             encontrarMateria(Cloud);
         } else {
             System.out.println("¡Emboscada!");
-            List<Enemigo> grupo = generarGrupoEnemigo();
+            generarGrupoEnemigo();
         }
     }
 
@@ -59,13 +58,16 @@ public class Gongaga extends Zona {
         for (int i = 0; i < cantidad; i++) {
             grupo.add(crearEnemigoAleatorio());
         }
-
-        if (cantidad == 1) {
-            System.out.println("¡Apareció " + grupo.get(0).getNombre() + "!");
-        } else if (cantidad == 2) {
-            System.out.println("¡Aparecieron 2 enemigos!");
-        } else {
-            System.out.println("¡Aparecieron 3 enemigos!");
+        switch (cantidad) {
+            case 1:
+                System.out.println("¡Apareció " + grupo.get(0).getNombre() + "!");
+                break;
+            case 2:
+                System.out.println("¡Aparecieron 2 enemigos!");
+                break;
+            default:
+                System.out.println("¡Aparecieron 3 enemigos!");
+                break;
         }
 
         return grupo;

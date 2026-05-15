@@ -1,11 +1,13 @@
 package entidades;
+import componentes.Elemento;
 import componentes.Estadisticas;
+import componentes.Vulnerable;
 
 /**
  * Clase abstracta que representa un enemigo del juego.
  * Sirve como plantilla para todos los tipos de enemigos.
  */
-public abstract class Enemigo {
+public abstract class Enemigo implements Vulnerable {
     public String nombre;
     protected int xpRecompensa;
     protected int chatarraRecompensa;
@@ -38,6 +40,17 @@ public abstract class Enemigo {
      */
     public void giveXpRecompensa(Jugador Cloud) {
         Cloud.recibirXp(xpRecompensa);
+    }
+
+    /**
+     * Comportamiento por defecto para todos los enemigos.
+     * Si no tienen debilidades específicas, el daño se multiplica por 1.0 (daño normal).
+     * @param elementoMagia el elemento del ataque mágico de Cloud
+     * @return el multiplicador de daño basado en la debilidad del enemigo
+     */
+    @Override
+    public double evaluarDebilidad(Elemento elementoMagia) {
+        return 1.0; 
     }
 
     /**

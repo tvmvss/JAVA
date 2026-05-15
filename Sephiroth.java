@@ -58,6 +58,7 @@ public class Sephiroth extends Enemigo {
      * Reinicia el contadorSuperNova a 0.
      * Solo ocurre cuando Cloud golpea a Sephiroth con un ataque Límite.
      */
+    @Override
     public void resetearContador() {
         contadorSuperNova = 0;
         System.out.println("El contador de SuperNova fue reiniciado.");

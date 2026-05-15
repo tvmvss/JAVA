@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class Sector7 extends Zona {
 
-    private ArrayList<Mejora> tiendaLocal;
+    private final ArrayList<Mejora> tiendaLocal;
 
     /**
      * Crea el Sector 7 con su inventario de mejoras inicializado.

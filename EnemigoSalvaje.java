@@ -1,7 +1,6 @@
 package entidades;
 import componentes.Elemento;
 import componentes.Estadisticas;
-import componentes.Vulnerable;
 import java.util.List;
 import java.util.Random;
 
@@ -10,9 +9,9 @@ import java.util.Random;
  * Posee debilidades, resistencias e inmunidades elementales.
  * Implementa Vulnerable para evaluar multiplicadores de daño mágico.
  */
-public class EnemigoSalvaje extends Enemigo implements Vulnerable {
+public class EnemigoSalvaje extends Enemigo {
     private final List<Elemento> debilidades;
-    private List<Elemento> resistencias;
+    private final List<Elemento> resistencias;
     private final List<Elemento> inmunidades;
 
     /**
@@ -63,6 +62,7 @@ public class EnemigoSalvaje extends Enemigo implements Vulnerable {
      * Otorga la chatarra del enemigo a Cloud al ser derrotado.
      * @param Cloud el jugador que recibe la chatarra
      */
+    @Override
     public void giveChatarraRecompensa(Jugador Cloud) {
         Cloud.setChatarra(Cloud.getChatarra() + chatarraRecompensa);
         System.out.println("Cloud obtuvo " + chatarraRecompensa + " de chatarra.");

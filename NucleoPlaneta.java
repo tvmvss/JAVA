@@ -1,6 +1,5 @@
 package mapa;
 import entidades.Jugador;
-import entidades.Sephiroth;
 
 /**
  * Zona del jefe final. Requiere nivel 20 y mínimo 2 materias equipadas en el Arma.
@@ -44,9 +43,7 @@ public class NucleoPlaneta extends Zona {
      * Si Cloud muere, Sephiroth se restaura por completo para el próximo intento.
      * @param Cloud el jugador que combate
      */
-    public void iniciarCombate(Jugador Cloud) {
-        Sephiroth jefeFinal = new Sephiroth();
-    }
+    public void iniciarCombate(Jugador Cloud) {}
 
     // Getters
     public int getMateriasMinRequeridas() { return materiasMinimasRequeridas; }
